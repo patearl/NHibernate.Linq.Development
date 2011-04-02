@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="Database" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="Primitive" Member="Primitives">
+    <Type Name="Primitive">
+      <Column Name="Decimal" Type="System.Decimal" DbType="Decimal(19,4) NOT NULL" CanBeNull="false" />
+      <Column Name="NullableDecimal" Type="System.Decimal" DbType="Decimal(19,4)" CanBeNull="true" />
+      <Column Name="String" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

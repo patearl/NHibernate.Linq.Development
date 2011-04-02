@@ -1,0 +1,1 @@
+sqlmetal ..\NHibernate.Linq.Database\Database.sdf /dbml:Database.dbml /pluralize
