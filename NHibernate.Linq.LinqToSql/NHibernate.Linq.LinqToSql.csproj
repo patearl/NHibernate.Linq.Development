@@ -60,12 +60,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateTests.cs" />
-    <Compile Include="DatabaseHelper.cs" />
     <Compile Include="Database.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.dbml</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="LogicalJoinTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SumTests.cs" />
   </ItemGroup>

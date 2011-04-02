@@ -6,8 +6,20 @@
     <edmx:StorageModels>
     <Schema Namespace="DatabaseModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.3.5" ProviderManifestToken="3.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="DatabaseModelStoreContainer">
+          <EntitySet Name="EntityA" EntityType="DatabaseModel.Store.EntityA" store:Type="Tables" />
           <EntitySet Name="Primitive" EntityType="DatabaseModel.Store.Primitive" store:Type="Tables" />
+          <AssociationSet Name="FK__EntityA__000000000000002D" Association="DatabaseModel.Store.FK__EntityA__000000000000002D">
+            <End Role="Primitive" EntitySet="Primitive" />
+            <End Role="EntityA" EntitySet="EntityA" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="EntityA">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PrimitiveId" Type="int" />
+        </EntityType>
         <EntityType Name="Primitive">
           <Key>
             <PropertyRef Name="Id" />
@@ -17,12 +29,29 @@
           <Property Name="String" Type="nvarchar" MaxLength="100" />
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
+        <Association Name="FK__EntityA__000000000000002D">
+          <End Role="Primitive" Type="DatabaseModel.Store.Primitive" Multiplicity="0..1" />
+          <End Role="EntityA" Type="DatabaseModel.Store.EntityA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Primitive">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EntityA">
+              <PropertyRef Name="PrimitiveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DatabaseModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="DatabaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Primitives" EntityType="DatabaseModel.Primitive" />
+          <EntitySet Name="EntityAs" EntityType="DatabaseModel.EntityA" />
+          <AssociationSet Name="FK__EntityA__000000000000002D" Association="DatabaseModel.FK__EntityA__000000000000002D">
+            <End Role="Primitive" EntitySet="Primitives" />
+            <End Role="EntityA" EntitySet="EntityAs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Primitive">
           <Key>
@@ -32,7 +61,19 @@
           <Property Type="Decimal" Name="NullableDecimal" Precision="19" Scale="4" />
           <Property Type="String" Name="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="EntityAs" Relationship="DatabaseModel.FK__EntityA__000000000000002D" FromRole="Primitive" ToRole="EntityA" />
         </EntityType>
+        <EntityType Name="EntityA">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Primitive" Relationship="DatabaseModel.FK__EntityA__000000000000002D" FromRole="EntityA" ToRole="Primitive" />
+        </EntityType>
+        <Association Name="FK__EntityA__000000000000002D">
+          <End Type="DatabaseModel.Primitive" Role="Primitive" Multiplicity="0..1" />
+          <End Type="DatabaseModel.EntityA" Role="EntityA" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -49,6 +90,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="EntityAs">
+            <EntityTypeMapping TypeName="DatabaseModel.EntityA">
+              <MappingFragment StoreEntitySet="EntityA">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK__EntityA__000000000000002D" TypeName="DatabaseModel.FK__EntityA__000000000000002D" StoreEntitySet="EntityA">
+            <EndProperty Name="EntityA">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Primitive">
+              <ScalarProperty Name="Id" ColumnName="PrimitiveId" />
+            </EndProperty>
+            <Condition ColumnName="PrimitiveId" IsNull="false" />
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -71,6 +128,11 @@
     <Diagrams>
       <Diagram Name="Model">
         <EntityTypeShape EntityType="DatabaseModel.Primitive" Width="1.5" PointX="0.75" PointY="0.75" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="DatabaseModel.EntityA" Width="1.5" PointX="3" PointY="1" Height="1.4033821614583333" />
+        <AssociationConnector Association="DatabaseModel.FK__EntityA__000000000000002D" >
+          <ConnectorPoint PointX="2.25" PointY="1.7016910807291668" />
+          <ConnectorPoint PointX="3" PointY="1.7016910807291668" />
+        </AssociationConnector>
       </Diagram>
     </Diagrams>
   </Designer>

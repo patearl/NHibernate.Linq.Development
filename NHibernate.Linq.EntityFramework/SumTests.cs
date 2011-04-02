@@ -14,7 +14,7 @@ namespace NHibernate.Linq.EntityFramework
 		public void EmptySumDecimal()
 		{
             DatabaseEntities db = new DatabaseEntities();
-			decimal sum = db.Primitives.Sum(a => a.Decimal);
+            decimal sum = db.Primitives.Where(a => false).Sum(a => a.Decimal);
 			Assert.AreEqual(0, sum);
 		}
 
@@ -22,7 +22,7 @@ namespace NHibernate.Linq.EntityFramework
 		public void EmptySumCastNullableDecimal()
 		{
             DatabaseEntities db = new DatabaseEntities();
-            decimal? sum = db.Primitives.Sum(a => (decimal?)a.Decimal);
+            decimal? sum = db.Primitives.Where(a => false).Sum(a => (decimal?)a.Decimal);
 			Assert.AreEqual(null, sum);
 		}
 
@@ -30,7 +30,7 @@ namespace NHibernate.Linq.EntityFramework
 		public void EmptySumNullableDecimal()
 		{
             DatabaseEntities db = new DatabaseEntities();
-            decimal? sum = db.Primitives.Sum(a => a.NullableDecimal);
+            decimal? sum = db.Primitives.Where(a => false).Sum(a => a.NullableDecimal);
 			Assert.AreEqual(null, sum);
 		}
 	}

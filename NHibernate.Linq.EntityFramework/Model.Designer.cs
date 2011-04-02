@@ -16,6 +16,11 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 
 [assembly: EdmSchemaAttribute()]
+#region EDM Relationship Metadata
+
+[assembly: EdmRelationshipAttribute("DatabaseModel", "FK__EntityA__000000000000002D", "Primitive", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(NHibernate.Linq.EntityFramework.Primitive), "EntityA", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(NHibernate.Linq.EntityFramework.EntityA))]
+
+#endregion
 
 namespace NHibernate.Linq.EntityFramework
 {
@@ -80,6 +85,22 @@ namespace NHibernate.Linq.EntityFramework
             }
         }
         private ObjectSet<Primitive> _Primitives;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<EntityA> EntityAs
+        {
+            get
+            {
+                if ((_EntityAs == null))
+                {
+                    _EntityAs = base.CreateObjectSet<EntityA>("EntityAs");
+                }
+                return _EntityAs;
+            }
+        }
+        private ObjectSet<EntityA> _EntityAs;
 
         #endregion
         #region AddTo Methods
@@ -91,6 +112,14 @@ namespace NHibernate.Linq.EntityFramework
         {
             base.AddObject("Primitives", primitive);
         }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the EntityAs EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToEntityAs(EntityA entityA)
+        {
+            base.AddObject("EntityAs", entityA);
+        }
 
         #endregion
     }
@@ -99,6 +128,102 @@ namespace NHibernate.Linq.EntityFramework
     #endregion
     
     #region Entities
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="DatabaseModel", Name="EntityA")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class EntityA : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new EntityA object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        public static EntityA CreateEntityA(global::System.Int32 id)
+        {
+            EntityA entityA = new EntityA();
+            entityA.Id = id;
+            return entityA;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DatabaseModel", "FK__EntityA__000000000000002D", "Primitive")]
+        public Primitive Primitive
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Primitive>("DatabaseModel.FK__EntityA__000000000000002D", "Primitive").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Primitive>("DatabaseModel.FK__EntityA__000000000000002D", "Primitive").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Primitive> PrimitiveReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Primitive>("DatabaseModel.FK__EntityA__000000000000002D", "Primitive");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Primitive>("DatabaseModel.FK__EntityA__000000000000002D", "Primitive", value);
+                }
+            }
+        }
+
+        #endregion
+    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -227,6 +352,31 @@ namespace NHibernate.Linq.EntityFramework
 
         #endregion
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DatabaseModel", "FK__EntityA__000000000000002D", "EntityA")]
+        public EntityCollection<EntityA> EntityAs
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<EntityA>("DatabaseModel.FK__EntityA__000000000000002D", "EntityA");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<EntityA>("DatabaseModel.FK__EntityA__000000000000002D", "EntityA", value);
+                }
+            }
+        }
+
+        #endregion
     }
 
     #endregion

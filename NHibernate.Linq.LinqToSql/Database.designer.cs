@@ -29,6 +29,9 @@ namespace NHibernate.Linq.LinqToSql
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertEntityA(EntityA instance);
+    partial void UpdateEntityA(EntityA instance);
+    partial void DeleteEntityA(EntityA instance);
     partial void InsertPrimitive(Primitive instance);
     partial void UpdatePrimitive(Primitive instance);
     partial void DeletePrimitive(Primitive instance);
@@ -58,11 +61,146 @@ namespace NHibernate.Linq.LinqToSql
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Primitive> Primitive
+		public System.Data.Linq.Table<EntityA> EntityAs
+		{
+			get
+			{
+				return this.GetTable<EntityA>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Primitive> Primitives
 		{
 			get
 			{
 				return this.GetTable<Primitive>();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute()]
+	public partial class EntityA : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.Nullable<int> _PrimitiveId;
+		
+		private EntityRef<Primitive> _Primitive;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnPrimitiveIdChanging(System.Nullable<int> value);
+    partial void OnPrimitiveIdChanged();
+    #endregion
+		
+		public EntityA()
+		{
+			this._Primitive = default(EntityRef<Primitive>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PrimitiveId", DbType="Int")]
+		public System.Nullable<int> PrimitiveId
+		{
+			get
+			{
+				return this._PrimitiveId;
+			}
+			set
+			{
+				if ((this._PrimitiveId != value))
+				{
+					if (this._Primitive.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPrimitiveIdChanging(value);
+					this.SendPropertyChanging();
+					this._PrimitiveId = value;
+					this.SendPropertyChanged("PrimitiveId");
+					this.OnPrimitiveIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Primitive_EntityA", Storage="_Primitive", ThisKey="PrimitiveId", OtherKey="Id", IsForeignKey=true)]
+		public Primitive Primitive
+		{
+			get
+			{
+				return this._Primitive.Entity;
+			}
+			set
+			{
+				Primitive previousValue = this._Primitive.Entity;
+				if (((previousValue != value) 
+							|| (this._Primitive.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Primitive.Entity = null;
+						previousValue.EntityAs.Remove(this);
+					}
+					this._Primitive.Entity = value;
+					if ((value != null))
+					{
+						value.EntityAs.Add(this);
+						this._PrimitiveId = value.Id;
+					}
+					else
+					{
+						this._PrimitiveId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Primitive");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -81,6 +219,8 @@ namespace NHibernate.Linq.LinqToSql
 		
 		private int _Id;
 		
+		private EntitySet<EntityA> _EntityAs;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -97,6 +237,7 @@ namespace NHibernate.Linq.LinqToSql
 		
 		public Primitive()
 		{
+			this._EntityAs = new EntitySet<EntityA>(new Action<EntityA>(this.attach_EntityAs), new Action<EntityA>(this.detach_EntityAs));
 			OnCreated();
 		}
 		
@@ -180,6 +321,19 @@ namespace NHibernate.Linq.LinqToSql
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Primitive_EntityA", Storage="_EntityAs", ThisKey="Id", OtherKey="PrimitiveId")]
+		public EntitySet<EntityA> EntityAs
+		{
+			get
+			{
+				return this._EntityAs;
+			}
+			set
+			{
+				this._EntityAs.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -198,6 +352,18 @@ namespace NHibernate.Linq.LinqToSql
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_EntityAs(EntityA entity)
+		{
+			this.SendPropertyChanging();
+			entity.Primitive = this;
+		}
+		
+		private void detach_EntityAs(EntityA entity)
+		{
+			this.SendPropertyChanging();
+			entity.Primitive = null;
 		}
 	}
 }

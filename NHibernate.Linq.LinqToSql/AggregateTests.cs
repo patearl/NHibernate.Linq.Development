@@ -14,7 +14,7 @@ namespace NHibernate.Linq.LinqToSql
 		public void SimpleAggregation()
 		{
 			Database db = DatabaseHelper.Create();
-		    var sum = db.Primitive.Aggregate("", (agg, item) => agg + item.String);
+		    var sum = db.Primitives.Aggregate("", (agg, item) => agg + item.String);
 		    Assert.AreEqual("", sum);
 		}
 
@@ -23,7 +23,7 @@ namespace NHibernate.Linq.LinqToSql
 		public void DecimalAggregation()
 		{
             Database db = DatabaseHelper.Create();
-            var sum = db.Primitive.Aggregate(0m, (agg, item) => agg + item.Decimal);
+            var sum = db.Primitives.Aggregate(0m, (agg, item) => agg + item.Decimal);
 			Assert.AreEqual(0m, sum);
 		}
 	}

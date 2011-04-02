@@ -1,11 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Database Name="Database" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="EntityA" Member="EntityAs">
+    <Type Name="EntityA">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PrimitiveId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="FK__EntityA__000000000000002D" Member="Primitive" ThisKey="PrimitiveId" OtherKey="Id" Type="Primitive" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="Primitive" Member="Primitives">
     <Type Name="Primitive">
       <Column Name="Decimal" Type="System.Decimal" DbType="Decimal(19,4) NOT NULL" CanBeNull="false" />
       <Column Name="NullableDecimal" Type="System.Decimal" DbType="Decimal(19,4)" CanBeNull="true" />
       <Column Name="String" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="FK__EntityA__000000000000002D" Member="EntityAs" ThisKey="Id" OtherKey="PrimitiveId" Type="EntityA" DeleteRule="NO ACTION" />
     </Type>
   </Table>
 </Database>
