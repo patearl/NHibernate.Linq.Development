@@ -13,7 +13,7 @@ namespace NHibernate.Linq.EntityFramework
 		[ExpectedException]
 		public void EmptySumDecimal()
 		{
-            DatabaseEntities db = new DatabaseEntities();
+            Database db = DatabaseHelper.Create();
             decimal sum = db.Primitives.Where(a => false).Sum(a => a.Decimal);
 			Assert.AreEqual(0, sum);
 		}
@@ -21,7 +21,7 @@ namespace NHibernate.Linq.EntityFramework
 		[Test]
 		public void EmptySumCastNullableDecimal()
 		{
-            DatabaseEntities db = new DatabaseEntities();
+            Database db = DatabaseHelper.Create();
             decimal? sum = db.Primitives.Where(a => false).Sum(a => (decimal?)a.Decimal);
 			Assert.AreEqual(null, sum);
 		}
@@ -29,7 +29,7 @@ namespace NHibernate.Linq.EntityFramework
 		[Test]
 		public void EmptySumNullableDecimal()
 		{
-            DatabaseEntities db = new DatabaseEntities();
+            Database db = DatabaseHelper.Create();
             decimal? sum = db.Primitives.Where(a => false).Sum(a => a.NullableDecimal);
 			Assert.AreEqual(null, sum);
 		}

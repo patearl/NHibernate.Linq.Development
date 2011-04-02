@@ -35,6 +35,7 @@
       <HintPath>..\NUnit-2.5.5\bin\net-2.0\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
@@ -47,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateTests.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="DatabaseHelper.cs" />
     <Compile Include="LogicalJoinTests.cs" />
     <Compile Include="Model.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -62,6 +65,16 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EF4ProviderWrappers\EFProviderWrapperToolkit\EFProviderWrapperToolkit.csproj">
+      <Project>{BAF62DE6-51D0-49AB-9E4E-9240E85E9C35}</Project>
+      <Name>EFProviderWrapperToolkit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EF4ProviderWrappers\EFTracingProvider\EFTracingProvider.csproj">
+      <Project>{F68D53D8-8926-49CF-B556-DF818C3BCA40}</Project>
+      <Name>EFTracingProvider</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -13,7 +13,7 @@ namespace NHibernate.Linq.EntityFramework
 		[ExpectedException]
 		public void SimpleAggregation()
 		{
-            DatabaseEntities db = new DatabaseEntities();
+            Database db = DatabaseHelper.Create();
 		    var sum = db.Primitives.Aggregate("", (agg, item) => agg + item.String);
 		    Assert.AreEqual("", sum);
 		}
@@ -22,7 +22,7 @@ namespace NHibernate.Linq.EntityFramework
 		[ExpectedException]
 		public void DecimalAggregation()
 		{
-            DatabaseEntities db = new DatabaseEntities();
+            Database db = DatabaseHelper.Create();
             var sum = db.Primitives.Aggregate(0m, (agg, item) => agg + item.Decimal);
 			Assert.AreEqual(0m, sum);
 		}
