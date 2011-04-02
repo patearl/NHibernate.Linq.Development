@@ -65,5 +65,13 @@ namespace NHibernate.Linq.EntityFramework
             Assert.AreEqual(1, entityAs.Count);
             Assert.AreEqual(1, entityAs[0].Primitive.NullableDecimal);
         }
+
+        [Test]
+        public void NullEquality()
+        {
+            Database db = DatabaseHelper.Create();
+            var entityAs = db.EntityAs.Where(ea => ea.Primitive.NullableDecimal == null).ToList();
+            Assert.AreEqual(2, entityAs.Count);
+        }
     }
 }
