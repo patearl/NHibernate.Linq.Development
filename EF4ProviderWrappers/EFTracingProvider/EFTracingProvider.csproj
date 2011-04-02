@@ -77,12 +77,8 @@
     <Compile Include="CommandExecutionStatus.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EFTracingCommand.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="EFTracingConnection.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="EFTracingCommand.cs" />
+    <Compile Include="EFTracingConnection.cs" />
     <Compile Include="CommandExecutionEventArgs.cs" />
     <Compile Include="EFTracingProviderConfiguration.cs" />
     <Compile Include="EFTracingExtensionMethods.cs" />
